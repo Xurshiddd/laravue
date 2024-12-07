@@ -47,7 +47,7 @@ const navigation = [
                                 <MenuButton class="relative flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                                     <span class="absolute -inset-1.5" />
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="rounded-full size-8" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                                    <img class="rounded-full size-8" :src="$page.props.auth.user ? $page.props.auth.user.avatar : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'" alt="User" />
                                 </MenuButton>
                             </div>
                             <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
@@ -56,16 +56,16 @@ const navigation = [
                                         <a href="#" :class="[active ? 'bg-gray-100 outline-hidden' : '', 'block px-4 py-2 text-sm text-gray-700']">Your Profile</a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
-                                        <a href="#" :class="[active ? 'bg-gray-100 outline-hidden' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
+                                        <Link :href="route('dashboard')" :class="[active ? 'bg-gray-100 outline-hidden' : '', 'block px-4 py-2 text-sm text-gray-700']">Dashboard</Link>
                                     </MenuItem>
-                                    <MenuItem v-slot="{ active }">
-                                        <Link :href="route('logo')" :class="[active ? 'bg-gray-100 outline-hidden' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign out</Link>
+                                    <MenuItem v-slot="{ active }" v-if="$page.props.auth.user">
+                                        <Link :href="route('logout')" method="post" as="button" type="button" :class="[active ? 'bg-gray-100 outline-hidden w-full text-start' : ' w-full text-start', ' w-full text-start block px-4 py-2 text-sm text-gray-700']">Sign out</Link>
                                     </MenuItem>
                                 </MenuItems>
                             </transition>
                         </Menu>
                         <div v-if="$page.props.auth.user" class="ml-[10px]">
-                                <Link :href class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">Logout</Link>
+                                <Link :href="route('logout')" method="post" as="button" type="button" class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">Logout</Link>
                             </div>
                             <div v-else>
                                 <Link :href="route('login')" class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">Login</Link>
