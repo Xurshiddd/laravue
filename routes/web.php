@@ -10,6 +10,10 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/dashboard', 'Dashboard')->middleware(['auth'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::inertia('profile', 'Profile', ['user' => \App\Models\User::find(auth()->id())])->name('profile');
+    Route::get('/asd', function () {
+        return \App\Models\User::find(auth()->id());
+    });
 });
 Route::middleware('guest')->group(function () {
     Route::inertia('/register', 'Auth/Register')->name('register');

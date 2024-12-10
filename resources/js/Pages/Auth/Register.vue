@@ -4,7 +4,6 @@ import Auth from "@/Layouts/Auth.vue";
 defineOptions({layout: Auth})
 import {useForm} from '@inertiajs/vue3'
 import TextInput from "@/Pages/Components/TextInput.vue";
-
 const form = useForm({
     avatar: null,
     name: null,
@@ -15,10 +14,10 @@ const form = useForm({
 })
 const input = document.getElementById('inp')
 const image = document.getElementById('img')
-function res(){
-    input.style.display = " ";
-    image.style.display = "none";
-}
+const removeImage = () => {
+    form.avatar = null;
+    form.preview = null;
+};
 
 const change = (e) => {
     form.avatar = e.target.files[0]
@@ -56,17 +55,16 @@ function submit() {
                 <TextInput name="Password" v-model="form.password" type="password" :message="form.errors.password"/>
                 <TextInput name="Confirm password" v-model="form.password_confirmation" type="password"
                            :message="form.errors.password_confirmation"/>
-                <div class="mb-3" id="inp">
+                <div class="mb-3">
                     <label for="avatar" class="block text-sm/6 font-medium text-gray-900">Image</label>
-                    <input @input="change"
-                           class="relative m-0 mt-2 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                           type="file" id="avatar"/>
+                    <input @input="change" class="file-input" type="file" id="avatar"/>
                     <small v-if="form.errors.avatar" style="color: red">{{ form.errors.avatar }}</small>
-                    <div class="flex justify-center items-center pt-[15px]" id="img">
+
+                    <!-- Image Preview -->
+                    <div v-if="form.preview" class="flex justify-center items-center pt-[15px]">
                         <div class="relative w-[100px]">
-                            <img :src="form.preview" class="w-[100px] rounded-[50%]" alt="">
-                            <span id="x"
-                                class="absolute bg-blue-500 text-blue-100 px-2 py-1 text-xs font-bold rounded-full -top-3 -right-3" style="cursor: pointer">x</span>
+                            <img :src="form.preview" class="w-[100px] rounded-[50%]" alt="Preview"/>
+                            <span @click="removeImage" class="absolute bg-blue-500 text-blue-100 px-2 py-1 text-xs font-bold rounded-full -top-3 -right-3" style="cursor: pointer">x</span>
                         </div>
                     </div>
                 </div>
@@ -86,7 +84,9 @@ function submit() {
 </template>
 
 <style scoped>
-    #img {
-        display: none;
-    }
+.file-input {
+    display: block;
+    margin-top: 10px;
+    padding: 8px;
+}
 </style>
