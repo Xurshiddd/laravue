@@ -25,7 +25,9 @@
         "@heroicons/vue": "^2.2.0",
         "@inertiajs/vue3": "^1.2.0",
         "install": "^0.13.0",
+        "lodash": "^4.17.21",
         "npm": "^10.9.2",
+        "tw-elements": "^2.0.0",
         "vue": "^3.5.13",
         "vue-router": "^4.5.0"
     }
